@@ -5,3 +5,5 @@ data_PBMR_400.csv
 .LSOverride
 .ipynb_checkpoints/
 __pycache__
+.DS_Store
+.DS_Store
