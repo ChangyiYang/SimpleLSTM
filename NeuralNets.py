@@ -13,7 +13,7 @@ class SimpleLSTM(nn.Module):
     
     
     '''
-    def __init__(self, input_dim, hidden_dim, output_dim, lstm_nums_layer, dropout):
+    def __init__(self, input_dim = 150, hidden_dim = 64, output_dim =1, lstm_nums_layer =2 , dropout = 0.1):
         super().__init__()
         self.input_dim = input_dim
         self.hidden_dim = hidden_dim

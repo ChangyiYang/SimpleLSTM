@@ -71,14 +71,16 @@ class ReactorData(Dataset):
     Note that since the return data is a time sequence data, there maybe some data in the end of dataset is not used.
 
     '''
-    def __init__(self, data, sequence_length, start_percent = 0, end_percent = 1):
+    def __init__(self, data, sequence_length = 10, start_percent = 0, end_percent = 1):
         
         
         length = data.shape[0]
         data = data[ int(length * start_percent)  : int(length * end_percent)]
+        self.all_data = data
         self.labels = data[:, -1:]
         self.data = data[:, 0:-1]
         self.sequence_length = sequence_length
+        
         
     def __len__(self):
         return len(self.labels)//self.sequence_length
