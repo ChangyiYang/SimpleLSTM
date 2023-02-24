@@ -23,7 +23,6 @@ def train(model, training_data, epoch_num ,batch_size, optimizer, loss_fn, print
             loss = loss_fn(pred, y)
         
             # backpropagation
-        
             loss.backward()
             optimizer.step()
         
@@ -46,7 +45,15 @@ def GridSearch(model, Net_parameters, Search_parameters, dataset):
 
     gs = GridSearchCV(net, ** Search_parameters)
 
-    gs.fit(dataset.all_data)
+    x , y, z = dataset.data.shape
+
+    data = dataset.data.reshape((x, y*z))
+
+    x , y, z = dataset.labels.shape
+
+    labels = dataset.labels.reshape((x, y*z))
+
+    gs.fit(data, labels)
 
     print("best score: {:.3f}".format(gs.best_score_))
 

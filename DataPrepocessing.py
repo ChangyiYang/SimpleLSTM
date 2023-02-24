@@ -80,13 +80,23 @@ class ReactorData(Dataset):
         self.labels = data[:, -1:]
         self.data = data[:, 0:-1]
         self.sequence_length = sequence_length
+
+        self.length = len(self.labels)//self.sequence_length
+
+        # cut the out datas
+
+        self.data = self.data[:self.sequence_length * self.length]
+
+        self.labels = self.labels[:self.sequence_length * self.length]
+
+        self.data = self.data.reshape(( self.length, self.sequence_length, self.data.shape[1]))
+
+        self.labels = self.labels.reshape(( self.length, self.sequence_length,1))
         
         
     def __len__(self):
-        return len(self.labels)//self.sequence_length
+        return self.length
     
     def __getitem__(self,idx):
-        idx = idx * self.sequence_length
-        
-        return torch.tensor(self.data[idx : idx+ self.sequence_length], dtype = torch.double), \
-    torch.tensor(self.labels[idx : idx+ self.sequence_length], dtype = torch.double)
+        return torch.tensor(self.data[idx], dtype = torch.double), \
+    torch.tensor(self.labels[idx], dtype = torch.double)
