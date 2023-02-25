@@ -53,6 +53,8 @@ def GridSearch(model, Net_parameters, Search_parameters, dataset):
 
     labels = dataset.labels.reshape((x, y*z))
 
+    
+
     gs.fit(data, labels)
 
     print("best score: {:.3f}".format(gs.best_score_))
