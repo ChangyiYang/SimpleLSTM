@@ -1,7 +1,7 @@
 # Include some training method
 from torch.utils.data import Dataset, DataLoader
 
-from skorch import NeuralNetRegressor
+# from skorch import NeuralNetRegressor
 from sklearn.model_selection import GridSearchCV
 
 

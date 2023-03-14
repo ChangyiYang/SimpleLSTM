@@ -93,7 +93,30 @@ class ReactorData(Dataset):
 
         self.labels = self.labels.reshape(( self.length, self.sequence_length,1))
         
+    # this initial method take in X and y seperately
+    def _init_(self, data, labels, sequence_length = 10, start_percent = 0, end_percent = 1):
+        length = data.shape[0]
+        data = data[ int(length * start_percent)  : int(length * end_percent)]
+        data = labels[ int(length * start_percent)  : int(length * end_percent)]
         
+        self.all_data = data
+        self.labels = labels
+        self.data = data
+        self.sequence_length = sequence_length
+
+        self.length = len(self.labels)//self.sequence_length
+
+        # cut the out datas
+
+        self.data = self.data[:self.sequence_length * self.length]
+
+        self.labels = self.labels[:self.sequence_length * self.length]
+
+        self.data = self.data.reshape(( self.length, self.sequence_length, self.data.shape[1]))
+
+        self.labels = self.labels.reshape(( self.length, self.sequence_length,1))
+        
+    
     def __len__(self):
         return self.length
     
