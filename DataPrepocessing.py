@@ -35,7 +35,7 @@ def standarlize(data : np.ndarray):
 
     return ss.fit_transform(data)
 
-def generate_histogram(data: np.ndarray, binInt, binMax):
+def generate_histogram(data: np.ndarray, binInt = 1.0e-06, binMax = 1.5e-04):
     '''
     Take in a data with first n-1 columns are features and last column are labels. Transform the features with histogram method
     '''
@@ -71,12 +71,12 @@ class ReactorData(Dataset):
     Note that since the return data is a time sequence data, there maybe some data in the end of dataset is not used.
 
     '''
-    def __init__(self, data, sequence_length = 10, start_percent = 0, end_percent = 1):
+    def __init__(self, data, sequence_length, start_percent, end_percent):
         
-        
+        self.all_data = data
         length = data.shape[0]
         data = data[ int(length * start_percent)  : int(length * end_percent)]
-        self.all_data = data
+        
         self.labels = data[:, -1:]
         self.data = data[:, 0:-1]
         self.sequence_length = sequence_length
@@ -89,32 +89,14 @@ class ReactorData(Dataset):
 
         self.labels = self.labels[:self.sequence_length * self.length]
 
-        self.data = self.data.reshape(( self.length, self.sequence_length, self.data.shape[1]))
-
-        self.labels = self.labels.reshape(( self.length, self.sequence_length,1))
-        
-    # this initial method take in X and y seperately
-    def _init_(self, data, labels, sequence_length = 10, start_percent = 0, end_percent = 1):
-        length = data.shape[0]
-        data = data[ int(length * start_percent)  : int(length * end_percent)]
-        data = labels[ int(length * start_percent)  : int(length * end_percent)]
-        
-        self.all_data = data
-        self.labels = labels
-        self.data = data
-        self.sequence_length = sequence_length
-
-        self.length = len(self.labels)//self.sequence_length
-
-        # cut the out datas
-
-        self.data = self.data[:self.sequence_length * self.length]
-
-        self.labels = self.labels[:self.sequence_length * self.length]
+        self.unshaped_data = self.data
+        self.unshaped_labels = self.labels
 
         self.data = self.data.reshape(( self.length, self.sequence_length, self.data.shape[1]))
 
         self.labels = self.labels.reshape(( self.length, self.sequence_length,1))
+        
+
         
     
     def __len__(self):
