@@ -20,6 +20,8 @@ def train(model, training_data, epoch_num ,batch_size, optimizer, loss_fn, print
 
             # print(X.dtype)
             pred = model(X)
+
+            # print(pred)
             loss = loss_fn(pred, y)
         
             # backpropagation
