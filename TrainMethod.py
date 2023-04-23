@@ -5,13 +5,13 @@ from torch.utils.data import Dataset, DataLoader
 from sklearn.model_selection import GridSearchCV
 
 
-def train(model, training_data, epoch_num ,batch_size, optimizer, loss_fn, print_out_frequency):
+def train(model, training_data, epoch_num ,batch_size, optimizer, loss_fn, print_out_frequency, shuffle):
     '''
     Simplest trainning function, take in a model, train it with corrsponding hyper parameters , loss and optimizer. 
     Return the final trained model and loss value
     '''
 
-    train_dataloader = DataLoader(training_data, batch_size = batch_size)
+    train_dataloader = DataLoader(training_data, batch_size = batch_size, shuffle= shuffle)
 
 
     for epoch in range(epoch_num):
