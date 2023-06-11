@@ -39,6 +39,7 @@ def train(model, training_data, epoch_num ,batch_size, optimizer, loss_fn, print
     return model, loss
 
 
+# this function is never finished
 def GridSearch(model, Net_parameters, Search_parameters, dataset):
     '''
     Do the grid search with skorch and sklearn
