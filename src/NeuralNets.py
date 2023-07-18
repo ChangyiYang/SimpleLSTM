@@ -47,7 +47,7 @@ class SimpleAttentionLSTM(nn.Module):
     The simplest neural nets
     The structure likes this:
 
-    Attention layer -> Drop out layer -> Linear layer
+    Linear layer -> Attention layer -> Dropout layer -> Linear layer
     '''
     def __init__(self, input_dim=150, hidden_dim=64, output_dim=1, dropout=0.1):
         super().__init__()
@@ -55,16 +55,18 @@ class SimpleAttentionLSTM(nn.Module):
         self.hidden_dim = hidden_dim
         self.output_dim = output_dim
         
-        self.attention = nn.MultiheadAttention(embed_dim=input_dim, num_heads=1)
+        self.linear = nn.Linear(input_dim, hidden_dim)
+        self.attention = nn.MultiheadAttention(embed_dim=hidden_dim, num_heads=1)
         self.dropout = nn.Dropout(dropout)
         self.hidden_to_output = nn.Linear(hidden_dim, output_dim)
 
         self.to(torch.double)
         
     def forward(self, input):
-        input = input.transpose(0, 1)  # Transpose input tensor to match the shape required by attention layer
-        output, _ = self.attention(input, input, input)  # Apply attention
+        output = self.linear(input)
+        output, _ = self.attention(output, output, output)  # Apply attention
         output = self.dropout(output)
         output = self.hidden_to_output(output)
         
         return output
+

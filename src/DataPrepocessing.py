@@ -107,3 +107,50 @@ class ReactorData(Dataset):
     def __getitem__(self,idx):
         return torch.tensor(self.data[idx], dtype = torch.double), \
     torch.tensor(self.labels[idx], dtype = torch.double)
+
+# define the dataset classes
+class ReactorAttentionData(Dataset):
+    '''
+    Define the pytorch dataset
+
+    The input data must a np.ndarray with first column be the labels and all other columns be the features 
+
+    Note that since the return data is a time sequence data, there maybe some data in the end of dataset is not used.
+
+    '''
+    def __init__(self, data, sequence_length, start_percent, end_percent):
+        
+        self.all_data = data
+        length = data.shape[0]
+        data = data[ int(length * start_percent)  : int(length * end_percent)]
+        
+        self.labels = data[:, :1]
+        self.data = data[:, 1:]
+        self.sequence_length = sequence_length
+
+        print(self.labels)
+
+        self.length = len(self.labels)//self.sequence_length
+
+        # cut the out datas
+
+        self.data = self.data[:self.sequence_length * self.length]
+
+        self.labels = self.labels[:self.sequence_length * self.length]
+
+        self.unshaped_data = self.data
+        self.unshaped_labels = self.labels
+
+        self.data = self.data.reshape(( self.length, self.sequence_length, self.data.shape[1]))
+
+        self.labels = self.labels.reshape(( self.length, self.sequence_length,1))
+        
+
+        
+    
+    def __len__(self):
+        return self.length
+    
+    def __getitem__(self,idx):
+        return torch.tensor(self.data[idx], dtype = torch.double), \
+    torch.tensor(self.labels[idx], dtype = torch.double)

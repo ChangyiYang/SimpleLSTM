@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import matplotlib.pyplot as plt
 
 def print_csv_shapes(folder_path):
     # 获取文件夹下所有CSV文件的路径
@@ -14,6 +15,9 @@ def print_csv_shapes(folder_path):
         file_path = os.path.join(folder_path, file)
         data = pd.read_csv(file_path)
         print(f"{file}: {data.shape}")
+        plt.plot(data['power_normalization_value'])
+        plt.plot(data["threshold"])
+
 
 # 测试
 folder_path = './Raw Data/Add Xe/Core'  # 替换为你的文件夹路径
