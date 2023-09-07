@@ -8,3 +8,8 @@ __pycache__
 .DS_Store
 .DS_Store
 Gamma Data/gammas_detected_0.pkl
+Gamma Data/Gamma_Final.csv
+Gamma Data/Processed_cycle_32.csv
+Model/Gamma_trail
+Model_params/Gamma_trail
+Processed Data/Gamma_Final.csv
