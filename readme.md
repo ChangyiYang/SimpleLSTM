@@ -1,59 +1,46 @@
-# Pebble Bed Reactor with LSTM
+# Pebble Bed with Reactor
 
-Hi guys, welcome to Pebble Bed Reactor program. In this program, we apply LSTM nets to predict the internal state and other quantities about reactor. Breif explanations of important files are listed below. 
+This is the Gamma branch for Pebblebed Reactor dealing Gamma data.
 
-## Support FIles
+## Gamma data
 
-### DataPrepocessing.py
+The Gamma data is a multi-index data. The index is time and energy channel. For each time, we collect detector's data for each energy channel. For each timestamp and each channel, the collected data is 
+1D. Our preprocessing all happens for this kind of 1D data. For now we have two apporach of preprocessing, the histogram and quantile. 
 
-Includes the functions for data processing. Also where the pytorch dataset is defined.
+## Raw Files
 
-### NeuralNets.py
+The related files are listed below. This is also the order of the workflow.
 
-Where different neural network is defined. 
+### Gamma_histogram.ipynb 
+In this file, we use histogram approach, i.e., we count the number of data points in each bin. 
 
-Actually, only one neural net is defined. We tried to add layernorm or batchnorm layer, but the existing result is not satisfying.
 
-### TrainMethod.py
+### Gamma_quantile.ipynb
+In this file, we use quantile apporach, i.e., we pick several quantils to represent the whole distribution.
 
-Include the train function, which will train a model with corresponding parameters. 
 
-The grid search function is designed in the begining of this project but is never finished.
+### Gamma_data.ipynb
+In this file, we add the core data to the detector data. The core data contains keff, threshold and power. 
 
-## Data Files
 
-### Brilliantlstm.pth
+### Gamma_training.ipynb
 
-The best model founded with grid search.
+In here, the model is trained and visualized. 
 
-**Note**: the searching process is lost. Basically, the grid search is just a bunch of `for` loop.
+### Source Files
 
-### stable_run.csv
+In the src folder of the repo, there are several source files. 
 
-This file contains all the stable run data and is used for training the transiant model.
+`TrainMethod.py ` is where the train function is defined.
 
-### first_run.csv and second_run.csv
+`NeuralNets.py` is where the network is defined. 
 
-There two files together are the easy run. More detailed explanation can be found in poster and pre.
+`DataPrepocessing.py` is where the Pytorch dataset class is defined. 
 
-### challenging_run.csv
 
-More detailed explanation can be found in poster and pre.
 
-## Jupter Files
 
-### GeneralLSTM.ipynb
 
-This file aims to trined on a LSTM based on different power and threshould for stable state and see if it works for all power and threshold.
 
-### TransientLSTM.ipynb
 
-This file aims to trined on a LSTM based on trainsiant data and stable data and see if it can predict transiant state well.
 
-### TransientLSTM_analysis.ipynb
-
-This file aims to analysis the model got from grid search. It evaluates the model's performance on the test data, which is the easy and challenging/hard run.
-
-### isotopic_concentrations_corr.ipynb
-
-This file aims to analysis the correlation between each isotopic. 
