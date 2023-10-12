@@ -70,3 +70,32 @@ class SimpleAttentionLSTM(nn.Module):
         
         return output
 
+
+class DimensionReductionModel(nn.Module):
+    def __init__(self, input_dim, hidden_dim, output_dim, lstm_num_layers, dropout):
+        super(DimensionReductionModel, self).__init()
+        
+        # Add more crossed linear and non-linear layers for dimension reduction
+        self.linear1 = nn.Linear(input_dim, 128)
+        self.relu1 = nn.ReLU()
+        self.linear2 = nn.Linear(128, 64)
+        self.relu2 = nn.ReLU()
+        self.linear3 = nn.Linear(64, hidden_dim)
+        self.relu3 = nn.ReLU()
+
+        self.simple_lstm = SimpleLSTM(hidden_dim, hidden_dim, output_dim, lstm_num_layers, dropout)
+
+    def forward(self, input):
+        # Apply additional crossed linear and non-linear layers
+        x = self.linear1(input)
+        x = self.relu1(x)
+        x = self.linear2(x)
+        x = self.relu2(x)
+        x = self.linear3(x)
+        x = self.relu3(x)
+
+        # Pass the reduced dimension data to the SimpleLSTM
+        output = self.simple_lstm(x)
+
+        return output
+
