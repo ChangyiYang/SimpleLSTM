@@ -22,6 +22,8 @@ def train(model, training_data, epoch_num ,batch_size, optimizer, loss_fn, print
             pred = model(X)
 
             # print(pred)
+
+            # print(pred)
             loss = loss_fn(pred, y)
         
             # backpropagation
@@ -29,6 +31,7 @@ def train(model, training_data, epoch_num ,batch_size, optimizer, loss_fn, print
             optimizer.step()
         
             loss = loss.item()
+            # print(loss)
 
         if epoch % print_out_frequency == 0:
             print("The loss is {} in epoch {}".format(loss ,epoch))
