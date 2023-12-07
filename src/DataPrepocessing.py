@@ -81,7 +81,7 @@ class ReactorData(Dataset):
         self.data = data[:, 1:]
         self.sequence_length = sequence_length
 
-        print(self.labels)
+        # print(self.labels)
 
         self.length = len(self.labels)//self.sequence_length
 
